@@ -3,15 +3,12 @@ const { createCanvas, loadImage } = require('canvas');
 const { join } = require('path');
 const yargs = require('yargs');
 
-const params = require('./params');
 const args = require('./args');
+const rad = require('./rad');
 
-const PI_180 = Math.PI / 180;
-const rad = d => d * PI_180;
-
-const canvas = createCanvas(params.outputWidth,
-			                params.outputHeight,
-			                params.outputExtension);
+const canvas = createCanvas(args.outputWidth,
+			                args.outputHeight,
+			                args.outputExtension);
 
 async function createPreview (filePath, fileName) {
     const ctx = canvas.getContext('2d');
@@ -20,12 +17,12 @@ async function createPreview (filePath, fileName) {
     ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    addBackground(ctx, params.background);
+    addBackground(ctx, args.background);
 
     ctx.translate(canvas.width / 2, canvas.width / 2);
 
-    createShadow(ctx, params);
-    drawImage(ctx, image, params.stickerSize);
+    createShadow(ctx, args);
+    drawImage(ctx, image, args.stickerSize);
 
     ctx.restore();
 
