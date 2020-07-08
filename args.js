@@ -13,5 +13,5 @@ module.exports = yargs
                    describe: 'Outputs directory',
                    type: 'string',
                    demandOption: true,
-                   default: params.output.path })
+                   default: params.output })
     .argv;

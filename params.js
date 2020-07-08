@@ -1,18 +1,16 @@
 module.exports = {
     input: './stickers',
-    sticker: {
-        size: 310,
-        shadow: {
-            color: '#bebebe',
-            angle: 135,
-            offset: 1,
-            blur: 1,
-        },
-    },
+    output: './previews',
+
+    stickerSize: 310,
+
+    shadowColor: '#bebebe',
+    shadowAngle: 135,
+    shadowOffset: 1,
+    shadowBlur: 1,
+
     background: '#e4e4e4',
-    output: {
-        width: 500,
-        height: 500,
-        path: './previews',
-    },
+
+    outputWidth: 500,
+    outputHeight: 500,
 };
