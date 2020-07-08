@@ -17,13 +17,13 @@ async function createPreview (filePath, fileName) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    addBackground(params.background);
+    addBackground(ctx, params.background);
 
     // Move Pivot Point To Center
     ctx.translate(canvas.width / 2, canvas.width / 2);
 
     // Create Shadow
-    createShadow(params.sticker.shadow);
+    createShadow(ctx, params.sticker.shadow);
 
     // Draw Image From Center
     ctx.drawImage(
@@ -38,9 +38,7 @@ async function createPreview (filePath, fileName) {
     await downloadFile(fileName);
 }
 
-function createShadow ({ angle, offset, color, blur }) {
-    let ctx = canvas.getContext('2d');
-
+function createShadow (ctx, { angle, offset, color, blur }) {
     const cos = Math.cos(rad(angle));
     const sin = Math.sin(rad(angle));
     ctx.shadowOffsetX = offset * cos;
@@ -49,9 +47,7 @@ function createShadow ({ angle, offset, color, blur }) {
     ctx.shadowBlur = blur;
 }
 
-function addBackground (background) {
-    let ctx = canvas.getContext('2d');
-
+function addBackground (ctx, background) {
     // Draw Background
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
