@@ -58,6 +58,15 @@ async function main () {
     }
 }
 
+module.exports = {
+    createPreview,
+    drawImage,
+    createShadow,
+    addBackground,
+    downloadFile,
+    main,
+};
+
 if (require.main === module) {
     main().catch(console.error);
 }
