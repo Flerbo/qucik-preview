@@ -57,8 +57,12 @@ const downloadFile = async fileName => {
     );
 };
 
-scanStickers(params.input).then(stickers => {
-    stickers.forEach(sticker => {
-        createPreview(`${params.input}/${sticker}`, sticker);
-    });
-});
+async function main () {
+    const stickers = await scanStickers(params.input);
+
+    for await (const sticker of stickers) {
+	await createPreview(`${params.input}/${sticker}`, sticker);
+    }
+}
+
+main().catch(console.error);
