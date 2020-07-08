@@ -6,7 +6,7 @@
   "author": "javid.izadfar@gmail.com",
   "license": "MIT",
   "scripts": {
-    "generate": "node index.js"
+    "generate": "node main.js"
   },
   "dependencies": {
     "canvas": "^2.6.1"
