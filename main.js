@@ -25,7 +25,7 @@ async function createPreview (filePath, fileName) {
 
     ctx.restore();
 
-    await downloadFile(fileName);
+    await saveBuffer(canvas.toBuffer(), fileName);
 }
 
 function drawImage (ctx, image, size) {
@@ -46,8 +46,8 @@ function addBackground (ctx, background) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-async function downloadFile (fileName) {
-    return writeFile(`${params.output.path}/${fileName}`, canvas.toBuffer());
+async function saveBuffer (buff, fileName) {
+    return writeFile(`${params.output.path}/${fileName}`, buff);
 }
 
 async function main () {
@@ -63,7 +63,7 @@ module.exports = {
     drawImage,
     createShadow,
     addBackground,
-    downloadFile,
+    saveBuffer,
     main,
 };
 
