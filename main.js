@@ -43,7 +43,7 @@ async function createPreview (filePath, fileName) {
     await downloadFile(fileName);
 }
 
-async function addBackground (background) {
+function addBackground (background) {
     let ctx = canvas.getContext('2d');
 
     // Draw Background
