@@ -14,28 +14,22 @@ async function createPreview (filePath, fileName) {
     const image = await loadImage(filePath);
 
     ctx.save();
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     addBackground(ctx, params.background);
 
-    // Move Pivot Point To Center
     ctx.translate(canvas.width / 2, canvas.width / 2);
 
-    // Create Shadow
     createShadow(ctx, params.sticker.shadow);
+    drawImage(ctx, image, params.sticker.size);
 
-    // Draw Image From Center
-    ctx.drawImage(
-	    image,
-	    params.sticker.size / -2,
-	    params.sticker.size / -2,
-	    params.sticker.size,
-	    params.sticker.size,
-    );
     ctx.restore();
 
     await downloadFile(fileName);
+}
+
+function drawImage (ctx, image, size) {
+    ctx.drawImage(image, size / -2, size / -2, size, size);
 }
 
 function createShadow (ctx, { angle, offset, color, blur }) {
@@ -48,7 +42,6 @@ function createShadow (ctx, { angle, offset, color, blur }) {
 }
 
 function addBackground (ctx, background) {
-    // Draw Background
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
