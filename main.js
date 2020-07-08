@@ -1,10 +1,27 @@
 const { readdir, writeFile } = require('fs').promises;
 const { createCanvas, loadImage } = require('canvas');
 const { join } = require('path');
+const yargs = require('yargs');
+const { homepage } = require('./package');
 const params = require('./params');
 
 const PI_180 = Math.PI / 180;
 const rad = d => d * PI_180;
+
+const opts = yargs
+      .usage('Usage: [-i <stickers-dir>] [-o <previews-dir>]')
+      .epilogue(`For more information, see ${homepage}`)
+      .option('i', { alias: 'input',
+                     describe: 'Inputs directory',
+                     type: 'string',
+                     demandOption: true,
+                     default: params.input })
+      .option('o', { alias: 'output',
+                     describe: 'Outputs directory',
+                     type: 'string',
+                     demandOption: true,
+                     default: params.output.path })
+      .argv;
 
 const canvas = createCanvas(params.output.width,
 			                params.output.height,
@@ -48,14 +65,14 @@ function addBackground (ctx, background) {
 }
 
 async function saveBuffer (buff, fileName) {
-    return writeFile(join(params.output.path, fileName), buff);
+    return writeFile(join(opts.output, fileName), buff);
 }
 
 async function main () {
-    const stickers = await readdir(params.input);
+    const stickers = await readdir(opts.input);
 
     for await (const sticker of stickers) {
-	    await createPreview(join(params.input, sticker), sticker);
+	    await createPreview(join(opts.input, sticker), sticker);
     }
 }
 
