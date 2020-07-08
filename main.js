@@ -23,12 +23,7 @@ async function createPreview (filePath, fileName) {
     ctx.translate(canvas.width / 2, canvas.width / 2);
 
     // Create Shadow
-    const cos = Math.cos(rad(params.sticker.shadow.angle));
-    const sin = Math.sin(rad(params.sticker.shadow.angle));
-    ctx.shadowOffsetX = params.sticker.shadow.offset * cos;
-    ctx.shadowOffsetY = params.sticker.shadow.offset * sin;
-    ctx.shadowColor = params.sticker.shadow.color;
-    ctx.shadowBlur = params.sticker.shadow.blur;
+    createShadow(params.sticker.shadow);
 
     // Draw Image From Center
     ctx.drawImage(
@@ -41,6 +36,17 @@ async function createPreview (filePath, fileName) {
     ctx.restore();
 
     await downloadFile(fileName);
+}
+
+function createShadow ({ angle, offset, color, blur }) {
+    let ctx = canvas.getContext('2d');
+
+    const cos = Math.cos(rad(angle));
+    const sin = Math.sin(rad(angle));
+    ctx.shadowOffsetX = offset * cos;
+    ctx.shadowOffsetY = offset * sin;
+    ctx.shadowColor = color;
+    ctx.shadowBlur = blur;
 }
 
 function addBackground (background) {
