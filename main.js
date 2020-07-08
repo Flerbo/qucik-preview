@@ -18,21 +18,22 @@ const params = {
         height: 500,
         path: './previews',
     },
-}
+};
 
-let canvas = createCanvas(params.output.width, params.output.height, params.output.extension);
+const canvas = createCanvas(params.output.width,
+			    params.output.height,
+			    params.output.extension);
 
-scanStickers = (path ) => {
+const scanStickers = path => {
     return new Promise ((resolve, reject) => {
         resolve(fs.readdirSync(path));
     })
 };
 
-createPreview = (filePath, fileName) => {
+const createPreview = (filePath, fileName) => {
     let ctx = canvas.getContext("2d");
 
-    loadImage(filePath).then((image) => {
-
+    loadImage(filePath).then(image => {
         ctx.save();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -61,20 +62,19 @@ createPreview = (filePath, fileName) => {
 
         downloadFile(fileName);
     });
-}
+};
 
-addBackgroundToFile = (background) => {
+const addBackgroundToFile = background => {
     let ctx = canvas.getContext("2d");
 
     // Draw Background
     ctx.fillStyle = background;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+};
 
-}
-
-downloadFile = (fileName) => {
+const downloadFile = fileName => {
     fs.writeFileSync(`${params.output.path}/${fileName}`, canvas.toBuffer());
-}
+};
 
 scanStickers(params.input).then(stickers => {
     stickers.forEach(sticker => {
