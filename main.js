@@ -8,9 +8,8 @@ const params = require('./params');
 const PI_180 = Math.PI / 180;
 const rad = d => d * PI_180;
 
-const opts = yargs
+const args = yargs
       .usage('Usage: [-i <stickers-dir>] [-o <previews-dir>]')
-      .epilogue(`For more information, see ${homepage}`)
       .option('i', { alias: 'input',
                      describe: 'Inputs directory',
                      type: 'string',
@@ -65,14 +64,14 @@ function addBackground (ctx, background) {
 }
 
 async function saveBuffer (buff, fileName) {
-    return writeFile(join(opts.output, fileName), buff);
+    return writeFile(join(args.output, fileName), buff);
 }
 
 async function main () {
-    const stickers = await readdir(opts.input);
+    const stickers = await readdir(args.input);
 
     for await (const sticker of stickers) {
-	    await createPreview(join(opts.input, sticker), sticker);
+	    await createPreview(join(args.input, sticker), sticker);
     }
 }
 
