@@ -1,6 +1,7 @@
 const { readdir, writeFile } = require('fs').promises;
 const { createCanvas, loadImage } = require('canvas');
 const params = require('./params');
+const { join } = require('path');
 
 const PI_180 = Math.PI / 180;
 const rad = d => d * PI_180;
@@ -47,14 +48,14 @@ function addBackground (ctx, background) {
 }
 
 async function saveBuffer (buff, fileName) {
-    return writeFile(`${params.output.path}/${fileName}`, buff);
+    return writeFile(join(params.output.path, fileName), buff);
 }
 
 async function main () {
     const stickers = await readdir(params.input);
 
     for await (const sticker of stickers) {
-	    await createPreview(`${params.input}/${sticker}`, sticker);
+	    await createPreview(join(params.input, sticker), sticker);
     }
 }
 
