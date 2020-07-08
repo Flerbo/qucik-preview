@@ -1,7 +1,7 @@
 const { readdir, writeFile } = require('fs').promises;
 const { createCanvas, loadImage } = require('canvas');
-const params = require('./params');
 const { join } = require('path');
+const params = require('./params');
 
 const PI_180 = Math.PI / 180;
 const rad = d => d * PI_180;
