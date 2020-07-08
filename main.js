@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fsp = require("fs").promises;
 const { createCanvas, loadImage } = require('canvas');
 
 const params = require('./params');
@@ -7,40 +7,39 @@ const canvas = createCanvas(params.output.width,
 			    params.output.height,
 			    params.output.extension);
 
-const scanStickers = fs.promises.readdir;
+const scanStickers = fsp.readdir;
 
-const createPreview = (filePath, fileName) => {
+const createPreview = async (filePath, fileName) => {
     let ctx = canvas.getContext("2d");
+    let image = await loadImage(filePath);
+    
+    ctx.save();
 
-    loadImage(filePath).then(image => {
-        ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    addBackgroundToFile(params.background);
 
-        addBackgroundToFile(params.background);
+    // Move Pivot Point To Center
+    ctx.translate((canvas.width / 2), (canvas.width / 2));
 
-        // Move Pivot Point To Center
-        ctx.translate((canvas.width / 2), (canvas.width / 2));
+    // Create Shadow
+    const cos = Math.cos((params.sticker.shadow.angle) * (Math.PI / 180));
+    const sin = Math.sin((params.sticker.shadow.angle) * (Math.PI / 180));
+    ctx.shadowOffsetX = params.sticker.shadow.offset * cos;
+    ctx.shadowOffsetY = params.sticker.shadow.offset * sin;
+    ctx.shadowColor = params.sticker.shadow.color;
+    ctx.shadowBlur = params.sticker.shadow.blur;
+    
+    // Draw Image From Center
+    ctx.drawImage(image,
+		  params.sticker.size / -2,
+		  params.sticker.size / -2,
+		  params.sticker.size,
+		  params.sticker.size,
+		 );
+    ctx.restore();
 
-        // Create Shadow
-        const cos = Math.cos((params.sticker.shadow.angle) * (Math.PI / 180));
-        const sin = Math.sin((params.sticker.shadow.angle) * (Math.PI / 180));
-        ctx.shadowOffsetX = params.sticker.shadow.offset * cos;
-        ctx.shadowOffsetY = params.sticker.shadow.offset * sin;
-        ctx.shadowColor = params.sticker.shadow.color;
-        ctx.shadowBlur = params.sticker.shadow.blur;
-        
-        // Draw Image From Center
-        ctx.drawImage(image,
-            params.sticker.size / -2,
-            params.sticker.size / -2,
-            params.sticker.size,
-            params.sticker.size,
-        );
-        ctx.restore();
-
-        downloadFile(fileName);
-    });
+    await downloadFile(fileName);
 };
 
 const addBackgroundToFile = background => {
@@ -51,8 +50,11 @@ const addBackgroundToFile = background => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 };
 
-const downloadFile = fileName => {
-    fs.writeFileSync(`${params.output.path}/${fileName}`, canvas.toBuffer());
+const downloadFile = async fileName => {
+    return fsp.writeFile(
+	`${params.output.path}/${fileName}`,
+	canvas.toBuffer()
+    );
 };
 
 scanStickers(params.input).then(stickers => {
