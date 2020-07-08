@@ -17,7 +17,7 @@ async function createPreview (filePath, fileName) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    addBackgroundToFile(params.background);
+    addBackground(params.background);
 
     // Move Pivot Point To Center
     ctx.translate(canvas.width / 2, canvas.width / 2);
@@ -43,7 +43,7 @@ async function createPreview (filePath, fileName) {
     await downloadFile(fileName);
 }
 
-async function addBackgroundToFile (background) {
+async function addBackground (background) {
     let ctx = canvas.getContext('2d');
 
     // Draw Background
