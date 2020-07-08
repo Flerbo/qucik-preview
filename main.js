@@ -7,11 +7,7 @@ const canvas = createCanvas(params.output.width,
 			    params.output.height,
 			    params.output.extension);
 
-const scanStickers = path => {
-    return new Promise ((resolve, reject) => {
-        resolve(fs.readdirSync(path));
-    })
-};
+const scanStickers = fs.promises.readdir;
 
 const createPreview = (filePath, fileName) => {
     let ctx = canvas.getContext("2d");
