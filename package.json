@@ -2,7 +2,7 @@
     "name": "quick-preview",
     "version": "1.0.0",
     "description": "Generates Preview Of Stickers",
-    "homepage": "https://github.com/Flerbo/Qucik-Preview"
+    "homepage": "https://github.com/Flerbo/Qucik-Preview",
     "main": "main.js",
     "author": "javid.izadfar@gmail.com",
     "license": "MIT",
