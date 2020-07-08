@@ -3,10 +3,9 @@ const { createCanvas, loadImage } = require('canvas');
 const { join } = require('path');
 const yargs = require('yargs');
 
-const args = require('./args');
 const rad = require('./rad');
 
-function previewGenerator () {
+function previewGenerator (args) {
     const canvas = createCanvas(args.outputWidth,
 			                    args.outputHeight,
 			                    args.outputExtension);
@@ -62,8 +61,8 @@ function previewGenerator () {
              saveBuffer };
 }
 
-async function main () {
-    const pg = previewGenerator();
+async function main (args) {
+    const pg = previewGenerator(args);
     const stickers = await readdir(args.input);
 
     for await (const sticker of stickers) {
@@ -74,5 +73,6 @@ async function main () {
 module.exports = { main };
 
 if (require.main === module) {
+    const args = require('./args');
     main(args).catch(console.error);
 }
