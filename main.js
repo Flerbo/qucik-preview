@@ -1,24 +1,7 @@
 const fs = require("fs");
 const { createCanvas, loadImage } = require('canvas');
 
-const params = {
-    input: './stickers',
-    sticker: {
-        size: 310,
-        shadow: {
-            color: '#bebebe',
-            angle: 135,
-            offset: 1,
-            blur: 1,
-        },
-    },
-    background: '#e4e4e4',
-    output: {
-        width: 500,
-        height: 500,
-        path: './previews',
-    },
-};
+const params = require('./params');
 
 const canvas = createCanvas(params.output.width,
 			    params.output.height,
