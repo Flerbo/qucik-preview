@@ -1,6 +1,4 @@
 const { createCanvas, loadImage } = require('canvas');
-const { writeFile } = require('fs').promises;
-const { join } = require('path');
 const rad = require('./rad');
 
 function previewGenerator (args) {
@@ -24,7 +22,7 @@ function previewGenerator (args) {
 
         ctx.restore();
 
-        await saveBuffer(canvas.toBuffer(), fileName);
+        return canvas.toBuffer();
     }
 
     function drawImage (ctx, image, size) {
@@ -48,15 +46,10 @@ function previewGenerator (args) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    async function saveBuffer (buff, fileName) {
-        return writeFile(join(args.output, fileName), buff);
-    }
-
     return { createPreview,
              drawImage,
              createShadow,
-             addBackground,
-             saveBuffer };
+             addBackground };
 }
 
 module.exports = previewGenerator;

@@ -8,7 +8,8 @@ async function main (args) {
     const stickers = await readdir(args.input);
 
     for await (const sticker of stickers) {
-	    await pg.createPreview(join(args.input, sticker), sticker);
+	    const buff = await pg.createPreview(join(args.input, sticker), sticker);
+        await writeFile(join(args.output, sticker), buff);
     }
 }
 
