@@ -6,7 +6,7 @@ function previewGenerator (args) {
 			                    args.outputHeight,
 			                    args.outputExtension);
 
-    async function createPreview (filePath, fileName) {
+    async function createPreview (filePath) {
         const ctx = canvas.getContext('2d');
         const image = await loadImage(filePath);
 
