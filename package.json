@@ -4,6 +4,7 @@
     "description": "Generates Preview Of Stickers",
     "homepage": "https://github.com/Flerbo/Qucik-Preview",
     "main": "main.js",
+    "bin": {"preview-stickers": "./main"},
     "author": "javid.izadfar@gmail.com",
     "license": "MIT",
     "scripts": {
