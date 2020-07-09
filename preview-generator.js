@@ -10,7 +10,7 @@ function previewGenerator (args) {
     async function createPreview (filePath) {
         const image = await loadImage(filePath);
 
-        fillBackground(ctx, args.background);
+        fillBackground(ctx, canvas.width, canvas.height);
         drawImage(ctx, image, args.stickerSize);
 
         ctx.restore();
@@ -37,11 +37,8 @@ function previewGenerator (args) {
         ctx.drawImage(image, size / -2, size / -2, size, size);
     }
 
-    function fillBackground (ctx, background) {
-        ctx.fillRect(canvas.width / -2,
-                     canvas.height / -2,
-                     canvas.width,
-                     canvas.height);
+    function fillBackground (ctx, width, height) {
+        ctx.fillRect(width / -2, height / -2, width, height);
     }
 
     return { createPreview,
