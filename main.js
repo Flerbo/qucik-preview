@@ -17,9 +17,9 @@ async function main (args) {
     }
 }
 
-module.exports = { main };
-
 if (require.main === module) {
     const args = require('./lib/args');
     main(args).catch(console.error);
 }
+
+module.exports = main;
