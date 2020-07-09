@@ -1,4 +1,4 @@
-const { readdir, writeFile } = require('fs').promises;
+const { readdir, writeFile, mkdir } = require('fs').promises;
 const { join } = require('path');
 
 const previewGenerator = require('./lib/preview-generator');
@@ -6,6 +6,10 @@ const previewGenerator = require('./lib/preview-generator');
 async function main (args) {
     const pg = previewGenerator(args);
     const stickers = await readdir(args.input);
+
+    if (stickers.length) {
+        await mkdir(args.output, { recursive: true })
+    }
 
     for await (const sticker of stickers) {
 	    const buff = await pg.createPreview(join(args.input, sticker));
