@@ -1,7 +1,7 @@
 const { readdir, writeFile } = require('fs').promises;
 const { join } = require('path');
 
-const previewGenerator = require('./preview-generator');
+const previewGenerator = require('./lib/preview-generator');
 
 async function main (args) {
     const pg = previewGenerator(args);
@@ -16,6 +16,6 @@ async function main (args) {
 module.exports = { main };
 
 if (require.main === module) {
-    const args = require('./args');
+    const args = require('./lib/args');
     main(args).catch(console.error);
 }
