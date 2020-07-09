@@ -5,50 +5,47 @@ function previewGenerator (args) {
     const canvas = createCanvas(args.outputWidth,
 			                    args.outputHeight,
 			                    args.outputExtension);
+    const ctx = initContext(canvas, args);
 
     async function createPreview (filePath) {
-        const ctx = canvas.getContext('2d');
         const image = await loadImage(filePath);
 
-        ctx.save();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         addBackground(ctx, args.background);
-
-        ctx.translate(canvas.width / 2, canvas.width / 2);
-
-        createShadow(ctx, args);
         drawImage(ctx, image, args.stickerSize);
 
         ctx.restore();
-
         return canvas.toBuffer();
+    }
+
+    function initContext (canvas, args) {
+        const ctx = canvas.getContext('2d');
+        const cos = Math.cos(rad(args.shadowAngle));
+        const sin = Math.sin(rad(args.shadowAngle));
+
+        ctx.translate(canvas.width / 2, canvas.width / 2);
+        ctx.shadowOffsetX = args.shadowOffset * cos;
+        ctx.shadowOffsetY = args.shadowOffset * sin;
+        ctx.shadowColor = args.shadowColor;
+        ctx.shadowBlur = args.shadowBlur;
+        ctx.fillStyle = args.background;
+
+        ctx.save();
+        return ctx;
     }
 
     function drawImage (ctx, image, size) {
         ctx.drawImage(image, size / -2, size / -2, size, size);
     }
 
-    function createShadow (
-        ctx,
-        { shadowAngle, shadowOffset, shadowColor, shadowBlur }
-    ) {
-        const cos = Math.cos(rad(shadowAngle));
-        const sin = Math.sin(rad(shadowAngle));
-        ctx.shadowOffsetX = shadowOffset * cos;
-        ctx.shadowOffsetY = shadowOffset * sin;
-        ctx.shadowColor = shadowColor;
-        ctx.shadowBlur = shadowBlur;
-    }
-
     function addBackground (ctx, background) {
-        ctx.fillStyle = background;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(canvas.width / -2,
+                     canvas.height / -2,
+                     canvas.width,
+                     canvas.height);
     }
 
     return { createPreview,
              drawImage,
-             createShadow,
              addBackground };
 }
 
