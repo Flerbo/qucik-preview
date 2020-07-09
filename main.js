@@ -8,7 +8,7 @@ async function main (args) {
     const stickers = await readdir(args.input);
 
     if (stickers.length) {
-        await mkdir(args.output, { recursive: true })
+        await mkdir(args.output, { recursive: true });
     }
 
     for await (const sticker of stickers) {
